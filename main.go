@@ -6,26 +6,26 @@ import (
 	"github.com/labstack/echo"
 	"github.com/labstack/echo/middleware"
 
+	"github.com/satori/go.uuid"
 )
 
 func main() {
 	
 	// Echo instance
 	e := echo.New()
+	e.HideBanner = true
 
 	// Middleware
 	e.Use(middleware.Logger())
 	e.Use(middleware.Recover())
 
 	// Routes
-	e.GET("/", hello)
+	e.GET("/", func (c echo.Context) error {
+		u1 := uuid.NewV4()
+		return c.String(http.StatusOK, u1.String())
+	})
 
 	// Start server
 
 	e.Logger.Fatal(e.Start(":1323"))
-}
-
-// Handler
-func hello(c echo.Context) error {
-	return c.String(http.StatusOK, "hello world")
 }

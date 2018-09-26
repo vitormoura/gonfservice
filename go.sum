@@ -2,6 +2,7 @@ github.com/davecgh/go-spew v1.1.0 h1:ZDRjVQ15GmhC3fiQ8ni8+OwkZQO4DARzQgrnXU1Liz8
 github.com/davecgh/go-spew v1.1.0/go.mod h1:J7Y8YcW2NihsgmVo/mv3lAwl/skON4iLHjSsI+c5H38=
 github.com/dgrijalva/jwt-go v3.2.0+incompatible h1:7qlOGliEKZXTDg6OTjfoBKDXWrumCAMpl/TFQ4/5kLM=
 github.com/dgrijalva/jwt-go v3.2.0+incompatible/go.mod h1:E3ru+11k8xSBh+hMPgOLZmtrrCbhqsmaPHjLKYnJCaQ=
+github.com/foolin/echo-template v0.0.0-20180515083712-23f7eb2c2782/go.mod h1:4ePCtze3Ivy48ps0gJWfSByLgfqvT0rF+RpKQFe4Ja0=
 github.com/labstack/echo v0.0.0-20180911044237-1abaa3049251 h1:4q++nZ4OEtmbHazhA/7i3T9B+CBWtnHpuMMcW55ZjRk=
 github.com/labstack/echo v0.0.0-20180911044237-1abaa3049251/go.mod h1:rWD2DNQgFb1IY9lVYZVLWn2Ko4dyHZ/LpHORyBLP3hI=
 github.com/labstack/gommon v0.0.0-20180312174116-6fe1405d73ec h1:aYKwS4iCpqxskMuvI8+Byq0CxnnWHO/xuLk2pZJ96tY=
@@ -12,6 +13,8 @@ github.com/mattn/go-isatty v0.0.3 h1:ns/ykhmWi7G9O+8a448SecJU3nSMBXJfqQkl0upE1jI
 github.com/mattn/go-isatty v0.0.3/go.mod h1:M+lRXTBqGeGNdLjl/ufCoiOlB5xdOkqRJdNxMWT7Zi4=
 github.com/pmezard/go-difflib v1.0.0 h1:4DBwDE0NGyQoBHbLQYPwSUPoCMWR5BEzIk/f1lZbAQM=
 github.com/pmezard/go-difflib v1.0.0/go.mod h1:iKH77koFhYxTK1pcRnkKkqfTogsbg7gZNVY4sRDYZ/4=
+github.com/satori/go.uuid v1.2.0 h1:0uYX9dsZ2yD7q2RtLRtPSdGDWzjeM3TbMJP9utgA0ww=
+github.com/satori/go.uuid v1.2.0/go.mod h1:dA0hQrYB0VpLJoorglMZABFdXlWrHn1NEOzdhQKdks0=
 github.com/stretchr/testify v1.2.1 h1:52QO5WkIUcHGIR7EnGagH88x1bUzqGXTC5/1bDTUQ7U=
 github.com/stretchr/testify v1.2.1/go.mod h1:a8OnRcib4nhh0OaRAV+Yts87kKdq0PP7pXfy6kDkUVs=
 github.com/valyala/bytebufferpool v0.0.0-20160817181652-e746df99fe4a h1:AOcehBWpFhYPYw0ioDTppQzgI8pAAahVCiMSKTp9rbo=
