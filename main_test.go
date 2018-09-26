@@ -37,14 +37,39 @@ func Test_Sending_ValidRequest_ResultOK(t *testing.T) {
 	}, http.StatusCreated)
 
 	if ok {
-		assert.True(t, result.Success)
-		assert.True(t, result.MessageID != "")
-		assert.True(t, result.Error == "")
-		assert.False(t, result.Date.IsZero())
+		assertValidSendMessageResult(t, result)
+	}
+}
+
+func Test_Sending_RequestWithoutFromField_ResultBadRequest(t *testing.T) {
+
+	result, ok := testPostNewMessage(t, Message{
+		From:    "",
+		Message: "Um exemplo",
+		To: []string{
+			"fulano@mail.com",
+		},
+		IsHTML: false,
+	}, http.StatusBadRequest)
+
+	if ok {
+		assertErrorSendMessageResult(t, result, MsgInvalidMessage)
 	}
 }
 
 //////////////////////////////
+
+func assertErrorSendMessageResult(t *testing.T, result SendMessageResult, expectedMessage string) {
+	assert.False(t, result.Success)
+	assert.Equal(t, expectedMessage, result.Error)
+}
+
+func assertValidSendMessageResult(t *testing.T, result SendMessageResult) {
+	assert.True(t, result.Success)
+	assert.True(t, result.MessageID != "")
+	assert.True(t, result.Error == "")
+	assert.False(t, result.Date.IsZero())
+}
 
 func testPostNewMessage(t *testing.T, msg Message, expectedStatusCode int) (result SendMessageResult, ok bool) {
 

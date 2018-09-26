@@ -1,14 +1,10 @@
 package main
 
 import (
-	"net/http"
-	"time"
-
 	"github.com/labstack/echo"
 	"github.com/labstack/echo/middleware"
 
 	toml "github.com/pelletier/go-toml"
-	"github.com/satori/go.uuid"
 )
 
 func main() {
@@ -34,17 +30,4 @@ func createApp() *echo.Echo {
 	toml.LoadFile("app.config.toml")
 
 	return e
-}
-
-func handleNewMessage(c echo.Context) error {
-
-	uniqueID := uuid.NewV4()
-
-	result := SendMessageResult{
-		MessageID: uniqueID.String(),
-		Success:   true,
-		Date:      time.Now(),
-	}
-
-	return c.JSON(http.StatusCreated, result) 
 }
