@@ -1,0 +1,33 @@
+settings:
+  legacy:
+    force: false
+    interval: 0
+server:
+  status: false
+  open: false
+  port: 0
+  host: ""
+schema:
+- name: gonfservice 
+  path: .
+  commands:
+    install:
+      status: true
+    run:
+      status: true
+  args:
+  - -port=1323
+  watcher:
+    paths:
+    - /
+    extensions:
+    - go
+    - html
+    ignored_paths:
+    - .git
+    - .realize
+    - vendor
+    scripts:
+      - type: before
+        command: taskkill /im gonfservice.exe /F
+    

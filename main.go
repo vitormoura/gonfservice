@@ -1,7 +1,6 @@
 package main
 
 import (
-	"fmt"
 	"net/http"
 	
 	"github.com/labstack/echo"
@@ -24,11 +23,9 @@ func main() {
 	// Start server
 
 	e.Logger.Fatal(e.Start(":1323"))
-
-	fmt.Println("Hello")
 }
 
 // Handler
 func hello(c echo.Context) error {
-	return c.String(http.StatusOK, "Hello, World!")
+	return c.String(http.StatusOK, "hello world")
 }

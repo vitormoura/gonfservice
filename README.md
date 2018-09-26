@@ -1,6 +1,14 @@
 # gonfservice
 Service API to send e-mail and other types of notifications using golang
 
+## Development
+
+Use `realize` to enable auto-reload during development:
+
+```shell
+> realize start
+```
+
 ## Functionalities
 
 - [ ] Queue and send a message (e-mail) using HTTP
