@@ -1,6 +1,10 @@
 # gonfservice
 Sample service API to send e-mail and other types of notifications using golang
 
+## Libs
+
+- https://github.com/go-gomail/gomail
+
 ## Development
 
 Use `realize` to enable auto-reload during development:

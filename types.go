@@ -2,7 +2,7 @@ package main
 
 import "time"
 
-//Message define the properties of a message
+//Message defines the properties of a message
 type Message struct {
 	From    string
 	To      []string
@@ -11,10 +11,21 @@ type Message struct {
 	IsHTML  bool
 }
 
-//SendMessageResult define the result of a send message operation
+//SendMessageResult defines the result of a send message operation
 type SendMessageResult struct {
 	MessageID string
 	Date      time.Time
 	Success   bool
 	Error     string
+}
+
+//AppConfig defines the expected configuration properties of the application
+type AppConfig struct {
+	SMTP SMTPConfig
+}
+
+//SMTPConfig defines the expected properties to connect with a SMTP Server
+type SMTPConfig struct {
+	Host string
+	Port int
 }

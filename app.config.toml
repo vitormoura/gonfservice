@@ -1,1 +1,4 @@
 ### Configuration
+[SMTP]
+host="localhost"
+port=25

@@ -1,6 +1,7 @@
 package main
 
 import (
+	
 	"github.com/labstack/echo"
 	"github.com/labstack/echo/middleware"
 
@@ -10,24 +11,60 @@ import (
 func main() {
 
 	// Start server
-	e := createApp()
+	e, err := createApp(nil)
+
+	if err != nil {
+		panic(err)
+	}
+
 	e.Logger.Fatal(e.Start(":1323"))
 }
 
-func createApp() *echo.Echo {
+func createApp(config *AppConfig) (*echo.Echo, error) {
+
+	var (
+		app *echo.Echo
+		err error
+	)
+
+	if config == nil {
+
+		if config, err = loadConfig("app.config.toml"); err != nil {
+			return nil, err
+		} 
+	}
+
 	// Echo instance
-	e := echo.New()
-	e.HideBanner = true
+	app = echo.New()
+	app.HideBanner = true
 
 	// Middleware
 	//e.Use(middleware.Logger())
-	e.Use(middleware.Recover())
+	app.Use(middleware.Recover())
 
 	// Routes
-	e.POST("/messages", handleNewMessage)
+	app.POST("/messages", handleNewMessage)
+	
+	return app, nil
+}
+
+func loadConfig(path string) (*AppConfig, error) {
+	
+	var (
+
+		err error
+		tomlData *toml.Tree
+		config AppConfig
+	)
 
 	// Load application config file
-	toml.LoadFile("app.config.toml")
+	if tomlData, err = toml.LoadFile(path); err != nil {
+		return nil, err
+	}
 
-	return e
+	if err = tomlData.Unmarshal(&config); err != nil {
+		return nil, err
+	}
+
+	return &config, nil
 }
