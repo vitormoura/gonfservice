@@ -36,5 +36,5 @@ func Test_MessageWithoutContent_ValidationFail(t *testing.T) {
 
 	errors := validateMailMessage(&m)
 
-	assert.True(t, len(errors) == 1, )
+	assert.True(t, len(errors) == 1)
 }

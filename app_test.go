@@ -45,7 +45,7 @@ func Test_Sending_ValidRequest_ResultOK(t *testing.T) {
 			"fulano@mail.com",
 		},
 		IsHTML: false,
-	}, http.StatusCreated)
+	}, http.StatusOK)
 
 	if ok {
 		assertValidSendMessageResult(t, result)

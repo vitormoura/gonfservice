@@ -27,6 +27,9 @@ func handleNewMessage(c echo.Context) error {
 	result.Errors = validateMailMessage(msg)
 
 	if len(result.Errors) > 0 {
+		
+		result.Success = false
+
 		return cc.JSON(http.StatusBadRequest, result)
 	}
 
@@ -49,6 +52,6 @@ func handleNewMessage(c echo.Context) error {
 	if err := d.DialAndSend(m); err != nil {
 		result.Errors = append(result.Errors, MsgErrorSendingMessage)
 	}
-
+	
 	return c.JSON(http.StatusOK, result)
 }
