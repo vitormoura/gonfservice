@@ -15,10 +15,15 @@ var (
 	app    *echo.Echo
 	server *httptest.Server
 	client *http.Client
+	config AppConfig
 )
 
 func init() {
-	app, _ = createApp(nil)
+	config.SMTP.Host = "localhost"
+	config.SMTP.Port = 25
+	config.Debug = false
+
+	app, _ = createApp(&config)
 	server = httptest.NewServer(app)
 	client = server.Client()
 }
@@ -72,6 +77,7 @@ func Test_LoadFileThatNotExists_ResultError(t *testing.T) {
 	assert.NotNil(t, err)
 }
 
+//////////////////////////////
 //////////////////////////////
 
 func assertErrorSendMessageResult(t *testing.T, result SendMessageResult, expectedMessage string) {

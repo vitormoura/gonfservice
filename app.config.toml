@@ -1,4 +1,7 @@
 ### Configuration
+
+Debug = true
+
 [SMTP]
 host="localhost"
 port=25

@@ -21,7 +21,8 @@ type SendMessageResult struct {
 
 //AppConfig defines the expected configuration properties of the application
 type AppConfig struct {
-	SMTP SMTPConfig
+	SMTP  SMTPConfig
+	Debug bool
 }
 
 //SMTPConfig defines the expected properties to connect with a SMTP Server
