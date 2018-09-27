@@ -7,6 +7,8 @@ require (
 	github.com/pelletier/go-toml v1.2.0
 	github.com/satori/go.uuid v1.2.0
 	github.com/stretchr/testify v1.2.2
+	gopkg.in/alexcesaro/quotedprintable.v3 v3.0.0-20150716171945-2caba252f4dc // indirect
 	gopkg.in/check.v1 v1.0.0-20180628173108-788fd7840127 // indirect
+	gopkg.in/mail.v2 v2.0.0-20180731213649-a0242b2233b4
 	gopkg.in/yaml.v2 v2.2.1 // indirect
 )

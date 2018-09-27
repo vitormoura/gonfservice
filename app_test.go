@@ -28,13 +28,19 @@ func init() {
 	client = server.Client()
 }
 
-//////////////////////////////
+///////////////////////////////////
 
 func Test_Sending_ValidRequest_ResultOK(t *testing.T) {
 
 	result, ok := testPostNewMessage(t, Message{
 		From:    "beltrano@mail.com",
-		Message: "Um exemplo",
+		Content: "Um exemplo",
+		Subject: "Test sending validRequest result OK",
+		CC: []string {
+			"sicrano@mail.com",
+			"sicrano_2@mail.com",
+			"sicrano_3@mail.com",
+		},
 		To: []string{
 			"fulano@mail.com",
 		},
@@ -50,7 +56,8 @@ func Test_Sending_RequestWithoutFromField_ResultBadRequest(t *testing.T) {
 
 	result, ok := testPostNewMessage(t, Message{
 		From:    "",
-		Message: "Um exemplo",
+		Subject: "Test sending requestWithoutFromField result bad request",
+		Content: "Um exemplo",
 		To: []string{
 			"fulano@mail.com",
 		},
@@ -58,37 +65,21 @@ func Test_Sending_RequestWithoutFromField_ResultBadRequest(t *testing.T) {
 	}, http.StatusBadRequest)
 
 	if ok {
-		assertErrorSendMessageResult(t, result, MsgInvalidMessage)
+		assertErrorSendMessageResult(t, result, []string { MsgInvalidMessage })
 	}
 }
 
-func Test_LoadValidConfigFile_ResultOK(t *testing.T) {
-	c, err := loadConfig("app.config.toml")
+///////////////////////////////////
 
-	assert.Nil(t, err)
-	assert.NotNil(t, c)
-	assert.Equal(t, c.SMTP.Host, "localhost")
-	assert.Equal(t, c.SMTP.Port, 25)
-}
-
-func Test_LoadFileThatNotExists_ResultError(t *testing.T) {
-	_, err := loadConfig("app.config.not_found.toml")
-
-	assert.NotNil(t, err)
-}
-
-//////////////////////////////
-//////////////////////////////
-
-func assertErrorSendMessageResult(t *testing.T, result SendMessageResult, expectedMessage string) {
+func assertErrorSendMessageResult(t *testing.T, result SendMessageResult, expectedMessages []string) {
 	assert.False(t, result.Success)
-	assert.Equal(t, expectedMessage, result.Error)
+	assert.Equal(t, len(result.Errors), len(expectedMessages) )
 }
 
 func assertValidSendMessageResult(t *testing.T, result SendMessageResult) {
 	assert.True(t, result.Success)
 	assert.True(t, result.MessageID != "")
-	assert.True(t, result.Error == "")
+	assert.True(t, len(result.Errors) == 0)
 	assert.False(t, result.Date.IsZero())
 }
 

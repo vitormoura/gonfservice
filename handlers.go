@@ -6,30 +6,49 @@ import (
 
 	"github.com/labstack/echo"
 	"github.com/satori/go.uuid"
+	gomail "gopkg.in/mail.v2"
 )
 
 func handleNewMessage(c echo.Context) error {
 
+	cc := c.(*AppContext)
 	msg := new(Message)
 
 	if err := c.Bind(msg); err != nil {
 		return err
 	}
 	
-	resultStatusCode := http.StatusCreated
-
 	result := SendMessageResult{
 		MessageID: uuid.NewV4().String(),
 		Success:   true,
 		Date:      time.Now(),
 	}
 
-	//Validate message
-	if msg.From == "" {
-		result.Success = false
-		result.Error = MsgInvalidMessage
-		resultStatusCode = http.StatusBadRequest
+	result.Errors = validateMailMessage(msg)
+
+	if len(result.Errors) > 0 {
+		return cc.JSON(http.StatusBadRequest, result)
 	}
 
-	return c.JSON(resultStatusCode, result)
+	m := gomail.NewMessage()
+
+	m.SetHeader("From", msg.From)
+	m.SetHeader("To", msg.To...)
+	m.SetHeader("Subject", msg.Subject)
+
+	if len(msg.CC) > 0 {
+		m.SetHeader("Cc", msg.CC...)
+	}
+
+	m.SetBody("text/plain", msg.Content)
+	//m.Attach("/home/Alex/lolcat.jpg")
+
+	d := gomail.NewDialer(cc.Config.SMTP.Host, cc.Config.SMTP.Port, cc.Config.SMTP.Username, cc.Config.SMTP.Password)
+
+	// Send the email to Bob, Cora and Dan.
+	if err := d.DialAndSend(m); err != nil {
+		result.Errors = append(result.Errors, MsgErrorSendingMessage)
+	}
+
+	return c.JSON(http.StatusOK, result)
 }

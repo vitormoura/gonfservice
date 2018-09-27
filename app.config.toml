@@ -5,3 +5,5 @@ Debug = true
 [SMTP]
 host="localhost"
 port=25
+username=""
+password=""
