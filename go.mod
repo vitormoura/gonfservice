@@ -10,6 +10,7 @@ require (
 	github.com/satori/go.uuid v1.2.0
 	github.com/shurcooL/sanitized_anchor_name v0.0.0-20170918181015-86672fcb3f95 // indirect
 	github.com/stretchr/testify v1.2.2
+	golang.org/x/tools v0.0.0-20180928115407-e9ca907325a5 // indirect
 	gopkg.in/alexcesaro/quotedprintable.v3 v3.0.0-20150716171945-2caba252f4dc // indirect
 	gopkg.in/check.v1 v1.0.0-20180628173108-788fd7840127 // indirect
 	gopkg.in/mail.v2 v2.0.0-20180731213649-a0242b2233b4

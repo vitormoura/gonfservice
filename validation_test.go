@@ -20,7 +20,24 @@ func Test_MessageWithoutFromField_ValidationFail(t *testing.T) {
 	errors := validateMailMessage(&m)
 
 	assert.True(t, len(errors) == 1)
-	assert.Equal(t, errors[0], MsgInvalidMessage)
+	assert.Equal(t, errors[0], "invalid email address: ''")
+}
+
+func Test_MessageNotSupportedType_ValidationFail(t *testing.T) {
+
+	m := Message{
+		From:    "chico@mail.com",
+		Content: "Um exemplo",
+		Subject: "Test sending validRequest result OK",
+		To: []string{
+			"fulano@mail.com",
+		},
+		Type: MessageType(999),
+	}
+
+	errors := validateMailMessage(&m)
+
+	assert.Equal(t, len(errors), 1, "not supported type")
 }
 
 func Test_MessageWithoutContent_ValidationFail(t *testing.T) {

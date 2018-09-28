@@ -31,6 +31,7 @@ func loadConfig(path string) (*AppConfig, error) {
 		return nil, err
 	}
 
+	// Parse content into config object
 	if err = tomlData.Unmarshal(&config); err != nil {
 		return nil, err
 	}

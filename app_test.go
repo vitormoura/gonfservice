@@ -51,9 +51,8 @@ func Test_Sending_ValidRequest_ResultOK(t *testing.T) {
 		Type: RichFormatMail,
 	}, http.StatusOK)
 
-	if ok {
-		assertValidSendMessageResult(t, result)
-	}
+	assert.True(t, ok)
+	assertValidSendMessageResult(t, result)
 }
 
 func Test_Sending_RequestWithoutFromField_ResultBadRequest(t *testing.T) {
@@ -68,16 +67,37 @@ func Test_Sending_RequestWithoutFromField_ResultBadRequest(t *testing.T) {
 		Type: PlainMail,
 	}, http.StatusBadRequest)
 
-	if ok {
-		assertErrorSendMessageResult(t, result, []string { MsgInvalidMessage })
-	}
+	assert.True(t, ok)
+	assertErrorSendMessageResult(t, result, 1)
 }
+
+func Test_Sending_RequestWithoutToField_ResultBadRequest(t *testing.T) {
+
+	result, ok := testPostNewMessage(t, Message{
+		From:    "mail@mail.com",
+		Subject: "Test sending requestWithoutFromField result bad request",
+		Content: "Hello?",
+		To: []string{
+		},
+		Type: PlainMail,
+	}, http.StatusBadRequest)
+
+	assert.True(t, ok)
+	assertErrorSendMessageResult(t, result, 1)
+}
+
+func Test_Sending_NoMessage_ResultBadRequest(t *testing.T) {
+
+	_, ok := testPostNewMessage(t, "", http.StatusBadRequest)
+	assert.False(t, ok, "post no message (returns error)")
+}
+
 
 ///////////////////////////////////
 
-func assertErrorSendMessageResult(t *testing.T, result SendMessageResult, expectedMessages []string) {
+func assertErrorSendMessageResult(t *testing.T, result SendMessageResult, qtdErrors int) {
 	assert.False(t, result.Success)
-	assert.Equal(t, len(result.Errors), len(expectedMessages) )
+	assert.Equal(t, qtdErrors, len(result.Errors) )
 }
 
 func assertValidSendMessageResult(t *testing.T, result SendMessageResult) {
@@ -87,7 +107,7 @@ func assertValidSendMessageResult(t *testing.T, result SendMessageResult) {
 	assert.False(t, result.Date.IsZero())
 }
 
-func testPostNewMessage(t *testing.T, msg Message, expectedStatusCode int) (result SendMessageResult, ok bool) {
+func testPostNewMessage(t *testing.T, msg interface{}, expectedStatusCode int) (result SendMessageResult, ok bool) {
 
 	ok = false
 	result = SendMessageResult{}
@@ -96,7 +116,7 @@ func testPostNewMessage(t *testing.T, msg Message, expectedStatusCode int) (resu
 
 	resp, err := client.Post(server.URL+"/messages", "application/json", buffer)
 
-	if assert.Nil(t, err) {
+	if assert.Nil(t, err, "post new message request (no error)") {
 
 		if assert.Equal(t, expectedStatusCode, resp.StatusCode) {
 			defer resp.Body.Close()
@@ -107,9 +127,9 @@ func testPostNewMessage(t *testing.T, msg Message, expectedStatusCode int) (resu
 			if assert.True(t, n > 0) {
 				err := json.Unmarshal(respBuffer.Bytes(), &result)
 
-				assert.Nil(t, err)
-
-				ok = true
+				if err == nil {
+					ok = true
+				}
 			}
 		}
 	}

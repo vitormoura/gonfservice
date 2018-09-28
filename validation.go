@@ -6,17 +6,6 @@ import (
 	"github.com/badoux/checkmail"
 )
 
-const (
-
-	//MsgInvalidMessage informs an invalid message
-	MsgInvalidMessage = "Invalid message"
-
-	//MsgErrorSendingMessage informs an error sending messages
-	MsgErrorSendingMessage = "Error sending message"
-)
-
-///////////////////////////////////
-
 func validateMailMessage(msg *Message) (errors []string) {
 
 	//Validate message
@@ -39,6 +28,11 @@ func validateMailMessage(msg *Message) (errors []string) {
 	//Content
 	if msg.Content == "" {
 		errors = append(errors, fmt.Sprintf("message without content"))
+	}
+
+	//Supported types
+	if msg.Type != PlainMail && msg.Type != RichFormatMail {
+		errors = append(errors, fmt.Sprintf("invalid message type: '%d'", msg.Type))
 	}
 
 	return
