@@ -2,6 +2,8 @@ package main
 
 import (
 	"fmt"
+
+	"github.com/badoux/checkmail"
 )
 
 const (
@@ -18,13 +20,20 @@ const (
 func validateMailMessage(msg *Message) (errors []string) {
 
 	//Validate message
-	if msg.From == "" {
-		errors = append(errors, MsgInvalidMessage)
+	if errMsg := validateMailAddressFormat(msg.From); errMsg != "" {
+		errors = append(errors, errMsg)
 	}
 
-	//To field empty
+	//To
 	if len(msg.To) == 0 {
-		errors = append(errors, fmt.Sprintf("message without "))
+		errors = append(errors, fmt.Sprintf("message without destination"))
+	} else {
+		validateMailAddressList(msg.To, &errors)
+	}
+
+	//CC
+	if len(msg.CC) > 0 {
+		validateMailAddressList(msg.CC, &errors)
 	}
 
 	//Content
@@ -33,4 +42,24 @@ func validateMailMessage(msg *Message) (errors []string) {
 	}
 
 	return
+}
+
+func validateMailAddressList(emails []string, errors *[]string) {
+
+	for _, address := range emails {
+		if errMsg := validateMailAddressFormat(address); errMsg != "" {
+			*errors = append(*errors, errMsg)
+		}
+	}
+
+	return
+}
+
+func validateMailAddressFormat(address string) string {
+
+	if err := checkmail.ValidateFormat(address); err != nil {
+		return fmt.Sprintf("invalid email address: '%s'", address)
+	}
+
+	return ""
 }

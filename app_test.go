@@ -34,8 +34,12 @@ func Test_Sending_ValidRequest_ResultOK(t *testing.T) {
 
 	result, ok := testPostNewMessage(t, Message{
 		From:    "beltrano@mail.com",
-		Content: "Um exemplo",
-		Subject: "Test sending validRequest result OK",
+		Content: `# An important message
+		- Item 1
+		- Item 2
+		- Item 3
+		`,
+		Subject: "Testing sending valid request",
 		CC: []string {
 			"sicrano@mail.com",
 			"sicrano_2@mail.com",
@@ -44,7 +48,7 @@ func Test_Sending_ValidRequest_ResultOK(t *testing.T) {
 		To: []string{
 			"fulano@mail.com",
 		},
-		IsHTML: false,
+		Type: RichFormatMail,
 	}, http.StatusOK)
 
 	if ok {
@@ -57,11 +61,11 @@ func Test_Sending_RequestWithoutFromField_ResultBadRequest(t *testing.T) {
 	result, ok := testPostNewMessage(t, Message{
 		From:    "",
 		Subject: "Test sending requestWithoutFromField result bad request",
-		Content: "Um exemplo",
+		Content: "Hello?",
 		To: []string{
 			"fulano@mail.com",
 		},
-		IsHTML: false,
+		Type: PlainMail,
 	}, http.StatusBadRequest)
 
 	if ok {

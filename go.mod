@@ -2,10 +2,13 @@ module github.com/vitormoura/gonfservice
 
 require (
 	github.com/BurntSushi/toml v0.3.1 // indirect
+	github.com/badoux/checkmail v0.0.0-20180430153108-0755fe2dc241
 	github.com/kr/pretty v0.1.0 // indirect
 	github.com/labstack/echo v0.0.0-20180911044237-1abaa3049251
 	github.com/pelletier/go-toml v1.2.0
+	github.com/russross/blackfriday v2.0.0+incompatible
 	github.com/satori/go.uuid v1.2.0
+	github.com/shurcooL/sanitized_anchor_name v0.0.0-20170918181015-86672fcb3f95 // indirect
 	github.com/stretchr/testify v1.2.2
 	gopkg.in/alexcesaro/quotedprintable.v3 v3.0.0-20150716171945-2caba252f4dc // indirect
 	gopkg.in/check.v1 v1.0.0-20180628173108-788fd7840127 // indirect

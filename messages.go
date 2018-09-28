@@ -9,8 +9,11 @@ type MessageType int
 
 const (
 
-	//Mail e-mail message
-	Mail MessageType = iota
+	//PlainMail plain text e-mail message
+	PlainMail MessageType = iota
+
+	//RichFormatMail e-mail with some sort of rich format
+	RichFormatMail
 )
 
 //Message defines the properties of a message
@@ -21,7 +24,6 @@ type Message struct {
 	CC      []string
 	Subject string
 	Content string
-	IsHTML  bool
 }
 
 //SendMessageResult defines the result of a send message operation
