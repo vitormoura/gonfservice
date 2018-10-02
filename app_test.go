@@ -19,11 +19,12 @@ var (
 )
 
 func init() {
+
 	config.SMTP.Host = "localhost"
 	config.SMTP.Port = 25
 	config.Debug = false
-
-	app, _ = createApp(&config)
+	
+	app, _ = createApp(createDefaultMailSender, config.Debug)
 	server = httptest.NewServer(app)
 	client = server.Client()
 }
@@ -33,14 +34,14 @@ func init() {
 func Test_Sending_ValidRequest_ResultOK(t *testing.T) {
 
 	result, ok := testPostNewMessage(t, Message{
-		From:    "beltrano@mail.com",
+		From: "beltrano@mail.com",
 		Content: `# An important message
 		- Item 1
 		- Item 2
 		- Item 3
 		`,
 		Subject: "Testing sending valid request",
-		CC: []string {
+		CC: []string{
 			"sicrano@mail.com",
 			"sicrano_2@mail.com",
 			"sicrano_3@mail.com",
@@ -77,9 +78,8 @@ func Test_Sending_RequestWithoutToField_ResultBadRequest(t *testing.T) {
 		From:    "mail@mail.com",
 		Subject: "Test sending requestWithoutFromField result bad request",
 		Content: "Hello?",
-		To: []string{
-		},
-		Type: PlainMail,
+		To:      []string{},
+		Type:    PlainMail,
 	}, http.StatusBadRequest)
 
 	assert.True(t, ok)
@@ -92,12 +92,17 @@ func Test_Sending_NoMessage_ResultBadRequest(t *testing.T) {
 	assert.False(t, ok, "post no message (returns error)")
 }
 
-
 ///////////////////////////////////
+
+func createDefaultMailSender() MessageSender {
+	return MailMessageSender{
+		Config: config.SMTP,
+	}
+}
 
 func assertErrorSendMessageResult(t *testing.T, result SendMessageResult, qtdErrors int) {
 	assert.False(t, result.Success)
-	assert.Equal(t, qtdErrors, len(result.Errors) )
+	assert.Equal(t, qtdErrors, len(result.Errors))
 }
 
 func assertValidSendMessageResult(t *testing.T, result SendMessageResult) {

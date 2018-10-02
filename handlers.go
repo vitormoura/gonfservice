@@ -15,12 +15,9 @@ func handleNewMessage(c echo.Context) error {
 		cc = c.(*AppContext)
 		msg Message
 	)
-	
-	mailSender := MailMessageSender {
-		Config: cc.Config.SMTP,
-	}
-
-	sender = &mailSender	
+		
+	//Message sender
+	sender = cc.Sender
 
 	//Reading request payload
 	if err = c.Bind(&msg); err != nil {

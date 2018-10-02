@@ -9,33 +9,25 @@ import (
 //AppContext represents a custom context
 type AppContext struct {
 	echo.Context
-
-	Config *AppConfig
+	
+	Sender MessageSender
 }
 
 ///////////////////////////////////
 
-func createApp(config *AppConfig) (*echo.Echo, error) {
+func createApp(senderCreator MessageSenderCreator , debug bool) (*echo.Echo, error) {
 
 	var (
 		app *echo.Echo
-		err error
 	)
-
-	if config == nil {
-
-		if config, err = loadConfig("app.config.toml"); err != nil {
-			return nil, err
-		}
-	}
-
+	
 	// Echo instance
 	app = echo.New()
 	app.HideBanner = true
 
 	// Middleware
 
-	if config.Debug {
+	if debug {
 		app.Use(middleware.Logger())
 	}
 
@@ -43,8 +35,11 @@ func createApp(config *AppConfig) (*echo.Echo, error) {
 
 	app.Use(func(handler echo.HandlerFunc) echo.HandlerFunc {
 		return func(c echo.Context) error {
-			cc := &AppContext{c, config}
-
+			cc := &AppContext{
+				c, 
+				senderCreator(),
+			}
+						
 			return handler(cc)
 		}
 	})

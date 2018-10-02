@@ -47,6 +47,9 @@ type MessageSender interface {
 	Send(m Message) (SendMessageResult, error)
 }
 
+//MessageSenderCreator defines a function capable to create message senders
+type MessageSenderCreator func() MessageSender
+
 //MailMessageSender sends emails
 type MailMessageSender struct {
 	Config SMTPConfig

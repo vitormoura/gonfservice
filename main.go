@@ -8,8 +8,10 @@ import (
 
 func main() {
 
-	var appConfig *AppConfig
-	var err error
+	var (
+		appConfig *AppConfig
+		err       error
+	)
 
 	appConfig = new(AppConfig)
 
@@ -29,8 +31,13 @@ func main() {
 		}
 	}
 
+	//Mail sender creator
+	defaultSenderCreator := func() MessageSender {
+		return MailMessageSender{appConfig.SMTP}
+	}
+
 	// Start server
-	e, err := createApp(appConfig)
+	e, err := createApp(defaultSenderCreator, appConfig.Debug)
 
 	if err != nil {
 		panic(err)
