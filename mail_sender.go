@@ -60,7 +60,7 @@ func (s MailMessageSender) Send(msg Message) (SendMessageResult, error) {
 
 	d := mail.NewDialer(s.Config.Host, s.Config.Port, s.Config.Username, s.Config.Password)
 	d.TLSConfig = &tls.Config{InsecureSkipVerify: true}
-	d.Timeout = time.Second * 30
+	d.Timeout = time.Second * time.Duration(s.Config.Timeout)
 
 	//
 	if sender, err = d.Dial(); err != nil {
