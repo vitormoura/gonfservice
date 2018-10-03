@@ -3,6 +3,7 @@ module github.com/vitormoura/gonfservice
 require (
 	github.com/BurntSushi/toml v0.3.1 // indirect
 	github.com/badoux/checkmail v0.0.0-20180430153108-0755fe2dc241
+	github.com/go-mail/mail v0.0.0-20180301192024-63235f23494b
 	github.com/kr/pretty v0.1.0 // indirect
 	github.com/labstack/echo v0.0.0-20180911044237-1abaa3049251
 	github.com/pelletier/go-toml v1.2.0

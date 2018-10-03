@@ -18,6 +18,7 @@ func main() {
 	//Standard config
 	appConfig.SMTP.Host = "localhost"
 	appConfig.SMTP.Port = 25
+	appConfig.SMTP.Timeout = 60
 	appConfig.Debug = false
 
 	//Reading params from command line

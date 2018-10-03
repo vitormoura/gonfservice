@@ -9,6 +9,7 @@ import (
 func Test_MessageWithoutFromField_ValidationFail(t *testing.T) {
 
 	m := Message{
+		Type: PlainMail,
 		From:    "",
 		Content: "Um exemplo",
 		Subject: "Test sending validRequest result OK",
@@ -43,6 +44,7 @@ func Test_MessageNotSupportedType_ValidationFail(t *testing.T) {
 func Test_MessageWithoutContent_ValidationFail(t *testing.T) {
 
 	m := Message{
+		Type: PlainMail,
 		From:    "chico@mail.com",
 		Content: "",
 		Subject: "Test sending validRequest result OK",

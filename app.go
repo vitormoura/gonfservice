@@ -20,7 +20,7 @@ func createApp(senderCreator MessageSenderCreator , debug bool) (*echo.Echo, err
 	var (
 		app *echo.Echo
 	)
-	
+	 
 	// Echo instance
 	app = echo.New()
 	app.HideBanner = true
@@ -33,11 +33,12 @@ func createApp(senderCreator MessageSenderCreator , debug bool) (*echo.Echo, err
 
 	app.Use(middleware.Recover())
 
+	// Middleware invoked every request
 	app.Use(func(handler echo.HandlerFunc) echo.HandlerFunc {
 		return func(c echo.Context) error {
 			cc := &AppContext{
 				c, 
-				senderCreator(),
+				senderCreator(), 
 			}
 						
 			return handler(cc)

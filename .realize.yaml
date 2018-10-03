@@ -23,6 +23,7 @@ schema:
     extensions:
     - go
     - html
+    - toml
     ignored_paths:
     - .git
     - .realize
