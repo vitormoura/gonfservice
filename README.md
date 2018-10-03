@@ -1,5 +1,5 @@
 # gonfservice
-Sample service API to send e-mail and other types of notifications using golang
+Simple sample service API to send e-mail and other types of notifications using golang
 
 ## Libs
 
@@ -15,6 +15,7 @@ Use `realize` to enable auto-reload during development:
 
 ## Functionalities
 
-- [ ] Queue and send a message (e-mail) using HTTP
-- [ ] Create and use message templates (Markdown)
+- [x] Send email throught HTTP endpoint
+- [ ] Enqueue messages to send later
 - [ ] Check sending status
+- [ ] Create and use message templates (Markdown)
